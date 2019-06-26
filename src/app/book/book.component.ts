@@ -1,51 +1,50 @@
 import {Component, OnInit} from '@angular/core';
-import {PostService} from '../post.service';
-import {Post} from '../post';
+import {IPost} from '../post';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-
+import {PostService} from '../post.service';
 
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
-  styleUrls: ['./book.component.css']
+  styleUrls: ['./book.component.scss']
 })
 export class BookComponent implements OnInit {
-  postList: Post[] = [];
-  postForm: FormGroup;
+  bookList: IPost[] = [];
+  bookForm: FormGroup;
 
   constructor(
-    private postService: PostService,
+    private bookService: PostService,
     private fb: FormBuilder
   ) {
   }
 
   ngOnInit() {
-    this.postForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(10)]],
+    this.bookForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(5)]],
+      read: true,
     });
-    this.postService
-      .getPosts()
-      .subscribe(next => (this.postList = next), error => (this.postList = []));
+    this.bookService.getBooks().subscribe(next => (this.bookList = next), error => (this.bookList = []));
   }
 
   onSubmit() {
-    if (this.postForm.valid) {
-      const {value} = this.postForm;
-      this.postService.createPost(value)
-        .subscribe(next => {
-          this.postList.unshift(next);
-          this.postForm.reset({
-            name: ''
-          });
-        }, error => console.log(error));
+    if (this.bookForm.valid) {
+      const {value} = this.bookForm;
+      this.bookService.createBook(value).subscribe(next => {
+        this.bookList.unshift(next);
+        this.bookForm.reset({
+          name: '',
+          read: true
+        });
+      }, error => console.log(error));
     }
   }
 
-  deletePost(i) {
-    const post = this.postList[i];
-    this.postService.deletePost(post.id).subscribe(() => {
-      this.postList = this.postList.filter(t => t.id !== post.id);
-    });
+  deleteBook(i) {
+    const book = this.bookList[i];
+    this.bookList = this.bookList.filter(t => t.id !== book.id);
   }
-
+  readed(book: IPost) {
+    book.read = true;
+  }
 }
+

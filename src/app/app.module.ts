@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BookComponent } from './book/book.component';
 import { BookEditComponent } from './book-edit/book-edit.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
+import {HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
@@ -13,13 +14,13 @@ import {ReactiveFormsModule} from '@angular/forms';
     AppComponent,
     BookComponent,
     BookEditComponent,
-    BookDetailComponent
+    BookDetailComponent,
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
-    BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,17 +1,24 @@
-<h1> Booklist</h1>
-<table>
-  <tr *ngFor="let book of postList">
-    <td>{{book.name}}</td>
-    <td> </td>
-  </tr>
+
+<table width="100%">
   <tr>
-    <td>Eve</td>
-    <td>Jackson</td>
-    <td>94</td>
+    <th>
+      Danh Sách Đọc
+    </th>
   </tr>
-  <tr>
-    <td>John</td>
-    <td>Doe</td>
-    <td>80</td>
+  <tr *ngFor="let book of bookList; index as i;">
+    <td *ngIf="book.read" >
+      {{book.name}}
+    </td>
+    <td *ngIf="book.read">
+      <button (click)="readed(book)">
+        Đã đọc
+      </button>
+    </td>
   </tr>
 </table>
+<form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+  <input type="text" formControlName="name">
+
+  <button type="submit">Submit</button>
+</form>
+<a href="/">Về Trang Chủ</a>

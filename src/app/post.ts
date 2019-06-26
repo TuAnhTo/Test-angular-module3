@@ -1,6 +1,6 @@
-export interface Post {
-  userId: number;
+export interface IPost {
   id: number;
   name: string;
-  read: true;
+  read: boolean;
+
 }

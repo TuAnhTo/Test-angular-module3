@@ -2,29 +2,29 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Post } from './post';
+import { IPost } from './post';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
-  private readonly API_URL = 'http://jsonplaceholder.typicode.com/posts';
+  private readonly API_URL = 'http://localhost:8081/books';
   constructor(private http: HttpClient) { }
-  getPosts(count = 10): Observable<Post[]> {
-    return this.http.get<Post[]>(this.API_URL).pipe(
-      map(response => response.filter((post, i) => i < count))
+  getBooks(count = 100): Observable<IPost[]> {
+    return this.http.get<IPost[]>(this.API_URL).pipe(
+      map(response => response.filter((book, i) => i < count))
     );
   }
-  getPostById(id: number): Observable<Post> {
-    return this.http.get<Post>(`${this.API_URL}/${id}`);
+  getBookById(id: number): Observable<IPost> {
+    return this.http.get<IPost>(`${this.API_URL}/${id}`);
   }
-  createPost(post: Partial<Post>): Observable<Post> {
-    return this.http.post<Post>(this.API_URL, post);
+  createBook(book: Partial<IPost>): Observable<IPost> {
+    return this.http.post<IPost>(this.API_URL, book);
   }
-  deletePost(id: number): Observable<any> {
+  deleteBook(id: number): Observable<any> {
     return this.http.delete(`${this.API_URL}/${id}`);
   }
-  updatePost(post: Post): Observable<Post> {
-    return this.http.patch<Post>(`${this.API_URL}/${post.id}`, post);
+  updateBook(book: IPost): Observable<IPost> {
+    return this.http.patch<IPost>(`${this.API_URL}/${book.id}`, book);
   }
 }

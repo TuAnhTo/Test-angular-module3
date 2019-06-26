@@ -1,51 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Post } from '../post';
+import { IPost } from '../post';
 import { PostService } from '../post.service';
-
 @Component({
   selector: 'app-book-edit',
   templateUrl: './book-edit.component.html',
-  styleUrls: ['./book-edit.component.css']
+  styleUrls: ['./book-edit.component.scss']
 })
 export class BookEditComponent implements OnInit {
 
-  post: Post;
-  postForm: FormGroup;
+  book: IPost;
+  bookForm: FormGroup;
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService,
+    private bookService: PostService,
     private fb: FormBuilder,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.postForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(10)]],
-      body: ['', [Validators.required, Validators.minLength(10)]]
+    this.bookForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(10)]],
     });
     const id = +this.route.snapshot.paramMap.get('id');
-    this.postService.getPostById(id).subscribe(
+    this.bookService.getBookById(id).subscribe(
       next => {
-        this.post = next;
-        this.postForm.patchValue(this.post);
+        this.book = next;
+        this.bookForm.patchValue(this.book);
       },
       error => {
         console.log(error);
-        this.post = null;
+        this.book = null;
       }
     );
   }
-
   onSubmit() {
-    if (this.postForm.valid) {
-      const { value } = this.postForm;
+    if (this.bookForm.valid) {
+      const { value } = this.bookForm;
       const data = {
-        ...this.post,
+        ...this.book,
         ...value
       };
-      this.postService.updatePost(data).subscribe(
+      this.bookService.updateBook(data).subscribe(
         next => {
           this.router.navigate(['/blog']);
         },
@@ -53,4 +50,5 @@ export class BookEditComponent implements OnInit {
       );
     }
   }
+
 }

@@ -1,28 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { PostService } from '../post.service';
-import { Post } from '../post';
+import {IPost} from '../post';
+import {ActivatedRoute} from '@angular/router';
+import {PostService} from '../post.service';
+
 @Component({
   selector: 'app-book-detail',
   templateUrl: './book-detail.component.html',
-  styleUrls: ['./book-detail.component.css']
+  styleUrls: ['./book-detail.component.scss']
 })
 export class BookDetailComponent implements OnInit {
-
-  post: Post;
+  book: IPost;
   constructor(
     private route: ActivatedRoute,
-    private postService: PostService
+    private bookService: PostService
   ) {}
+
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.postService.getPostById(id).subscribe(
-      next => (this.post = next),
+    this.bookService.getBookById(id).subscribe(
+      next => (this.book = next),
       error => {
         console.log(error);
-        this.post = null;
+        this.book = null;
       }
     );
   }
+
 }
